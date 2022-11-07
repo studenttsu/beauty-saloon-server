@@ -5,8 +5,7 @@ import { RecordStatus, RecordStatusFinish } from 'src/shared/enums';
 import { OrdersService, CustomersService, StaffService, ServicesService } from 'src/services';
 import { ICustomerEntity, IOrderEntity } from 'src/shared/interfaces';
 import { Utils } from 'src/shared/utils';
-import { JwtAuthGuard } from 'src/services/auth';
-
+import {JwtGuard} from "../auth/guards/jwt.guard";
 
 
 @ApiTags('Orders')
@@ -22,7 +21,7 @@ export class OrdersController {
 
   @Get()
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtGuard)
   @ApiOperation({ summary: 'Возвращает онлайн-записи на услуги' })
   @ApiOkResponse({ type: [OrderDto] })
   @ApiQuery({ name: 'from', description: 'Дата начала периода дат посещения', required: false })
@@ -107,7 +106,7 @@ export class OrdersController {
 
   @Patch(':id')
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtGuard)
   @ApiOkResponse({ description: 'Данные заявки изменены' })
   @ApiNotFoundResponse({ description: 'Заявка не найдена' })
   updateOrder(@Param('id') id: number, @Body() updateOrderDto: UpdateOrderDto) {
@@ -123,7 +122,7 @@ export class OrdersController {
 
   @Patch('close/:id')
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtGuard)
   @ApiQuery({ name: 'finishStatus', enum: RecordStatusFinish, description: 'Услуга оказана или нет' })
   @ApiNotFoundResponse({ description: 'Заявка не найдена' })
   closeOrder(@Param('id') id: number, @Query('finishStatus') finishStatus: RecordStatusFinish) {
@@ -139,7 +138,7 @@ export class OrdersController {
 
   @Delete(':id')
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtGuard)
   @ApiOkResponse({ description: 'Заявка удалена' })
   @ApiNotFoundResponse({ description: 'Заявка не найдена' })
   removeOrder(@Param('id') id: number) {

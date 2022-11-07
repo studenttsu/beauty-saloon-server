@@ -26,8 +26,11 @@ import {
   jwtConstants,
   AuthService,
   LocalStrategy,
-  JwtStrategy
 } from './services/auth';
+import {JwtRefreshTokenStrategy} from "./auth/strategies/jwt-refresh.strategy";
+import {JwtRefreshGuard} from "./auth/guards/jwt-refresh.guard";
+import {JwtGuard} from "./auth/guards/jwt.guard";
+import {JwtStrategy} from "./auth/strategies/jwt.strategy";
 
 @Module({
   imports: [
@@ -56,7 +59,10 @@ import {
     AuthService,
     LocalStrategy,
     UsersService,
-    JwtStrategy
+    JwtRefreshTokenStrategy,
+    JwtRefreshGuard,
+    JwtStrategy,
+    JwtGuard,
   ]
 })
 export class AppModule { }

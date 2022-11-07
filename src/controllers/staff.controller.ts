@@ -4,9 +4,9 @@ import { FileInterceptor } from '@nestjs/platform-express'
 import { StaffDto, UpdateStaffDto, CreateStaffDto } from 'src/shared/dto';
 import { StaffService } from 'src/services';
 import { Utils } from 'src/shared/utils';
-import { JwtAuthGuard } from 'src/services/auth';
 import { memoryStorage } from 'multer';
 import { extname } from 'path';
+import {JwtGuard} from "../auth/guards/jwt.guard";
 
 @ApiTags('Staff')
 @Controller('staff')
@@ -30,7 +30,7 @@ export class StaffController {
 
   @Get(':id')
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtGuard)
   @ApiOperation({ summary: 'Возвращает сотрудника по id' })
   @ApiOkResponse({ type: StaffDto })
   @ApiNotFoundResponse({ description: 'Сотрудник не найден' })
@@ -46,7 +46,7 @@ export class StaffController {
 
   @Post()
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtGuard)
   @UseInterceptors(FileInterceptor('photo', {
     storage: memoryStorage(),
     fileFilter: (req, file, cb) => {
@@ -77,7 +77,7 @@ export class StaffController {
 
   @Patch(':id')
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtGuard)
   @UseInterceptors(FileInterceptor('photo', {
     storage: memoryStorage(),
     fileFilter: (req, file, cb) => {
@@ -125,7 +125,7 @@ export class StaffController {
 
   @Delete(':id')
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtGuard)
   @ApiOperation({ summary: 'Удаляет сотрудника' })
   @ApiOkResponse({ description: 'Сотрудник успешно удалён' })
   @ApiNotFoundResponse({ description: 'Сотрудник не найден' })

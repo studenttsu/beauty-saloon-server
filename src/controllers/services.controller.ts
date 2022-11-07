@@ -2,7 +2,7 @@ import { Controller, Get, Post, Body, Patch, Delete, Param, HttpException, HttpS
 import { ApiTags, ApiOperation, ApiOkResponse, ApiCreatedResponse, ApiNotFoundResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { ServiceDto, CreateServiceDto } from 'src/shared/dto';
 import { ServicesService } from 'src/services';
-import { JwtAuthGuard } from 'src/services/auth';
+import {JwtGuard} from "../auth/guards/jwt.guard";
 
 @ApiTags('Services')
 @Controller('services')
@@ -19,7 +19,7 @@ export class ServicesController {
 
   @Get(':id')
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtGuard)
   @ApiOperation({ summary: 'Возвращает клиента по id' })
   @ApiNotFoundResponse({ description: 'Услуга не неайдена' })
   @ApiOkResponse({ type: ServiceDto })
@@ -35,7 +35,7 @@ export class ServicesController {
 
   @Post()
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtGuard)
   @ApiOperation({ summary: 'Создаёт новую услугу' })
   @ApiCreatedResponse({ description: 'Услуга создана', type: ServiceDto })
   createService(@Body() createServiceDto: CreateServiceDto): ServiceDto {
@@ -45,7 +45,7 @@ export class ServicesController {
 
   @Patch(':id')
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtGuard)
   @ApiOperation({ summary: 'Обновляет данные услуги' })
   @ApiNotFoundResponse({ description: 'Услуга не неайдена' })
   @ApiOkResponse({ description: 'Услуга изменена', type: ServiceDto })
@@ -62,7 +62,7 @@ export class ServicesController {
 
   @Delete(':id')
   @ApiBearerAuth()
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtGuard)
   @ApiOperation({ summary: 'Удаляет услугу' })
   @ApiNotFoundResponse({ description: 'Услуга не неайдена' })
   @ApiOkResponse({ description: 'Услуга удалена' })

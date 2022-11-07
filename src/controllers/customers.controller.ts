@@ -3,10 +3,10 @@ import { ApiTags, ApiOperation, ApiCreatedResponse, ApiBadRequestResponse, ApiOk
 import { CustomersService } from 'src/services';
 import { CustomerDto, CreateCustomerDto } from 'src/shared/dto';
 import { Utils } from 'src/shared/utils';
-import { JwtAuthGuard } from 'src/services/auth';
+import {JwtGuard} from "../auth/guards/jwt.guard";
 
 @ApiBearerAuth()
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtGuard)
 @ApiTags('Customers')
 @Controller('customers')
 export class CustomersController {
